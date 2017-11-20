@@ -157,9 +157,6 @@ RUN set -ex \
 
 # MYSQL AND RSYNC BEGIN
 
-# ADD ./files/Gemfile* /app/
-# RUN bundle install
-
 # REGISTRY TAOBO BEGIN
 RUN npm install -g yarn --registry=https://registry.npm.taobao.org
 RUN npm install -g webpack --registry=https://registry.npm.taobao.org
@@ -175,6 +172,9 @@ RUN set -ex \
 RUN mkdir /app
 WORKDIR /app
 VOLUME /app
+
+ADD ./files/Gemfile* /app/
+RUN bundle install
 
 EXPOSE 22 80 3000
 CMD ["/usr/bin/supervisord"]

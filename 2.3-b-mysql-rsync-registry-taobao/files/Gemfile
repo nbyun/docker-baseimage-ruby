@@ -1,0 +1,108 @@
+source 'http://gems.ruby-china.org'
+# source 'http://ruby.taobao.org'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+# Use sqlite3 as the database for Active Record
+gem 'mysql2', '~> 0.4.4'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 5.0'
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+# Use CoffeeScript for .coffee assets and views
+gem 'coffee-rails', '~> 4.1.0'
+# See https://github.com/rails/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.0'
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0', group: :doc
+
+# tree
+gem 'closure_tree'
+
+# I18n
+gem 'rails-i18n', '~> 5.0.1'
+
+# 配置
+gem 'figaro'
+
+# 验证
+gem 'jwt'
+gem 'bcrypt'
+# gem 'base64'
+# gem 'hmac-sha1'
+gem 'ruby-hmac'
+
+# 部署
+gem 'unicorn'
+
+# 分页
+gem 'kaminari'
+gem 'api-pagination'
+
+gem 'rack-cors'
+gem 'rack-attack'
+gem "puma"
+#gem 'active_model_serializers', "~> 0.10.10", git: 'https://github.com/agideo/active_model_serializers.git'
+gem 'active_model_serializers', path: './vendor/gems/active_model_serializers-0.10.10'
+
+# 单点登录
+gem 'rubycas-client', path: './vendor/gems/rubycas-client-2.3.14' #git: 'git://github.com/mdsol/rubycas-client.git' #:git => 'git://github.com/rubycas/rubycas-client.git' 
+gem 'rubycas-client-rails' #, :git => 'git://github.com/creativecommons/rubycas-client-rails.git'
+gem 'activerecord-session_store'
+
+# 消息队列
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+gem 'aliyun-mq-sdk', '~> 0.1.2'
+
+# Http请求
+gem 'rest-client'
+
+# 错误通知
+gem 'sentry-raven'
+
+# 导入xlsx
+gem 'rubyXL'
+gem 'spreadsheet'
+
+# 权限控制
+gem "pundit"
+
+group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'rspec-rails', '~> 3.5.2'
+
+  # Use Factory Girl for generating random test data
+  gem 'factory_girl_rails'
+  gem 'byebug'
+  gem 'pry-byebug'
+  gem 'pry', '~> 0.10.4'
+  gem 'pry-rails'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'timecop'
+end
+
+group :development do
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'listen', '~> 3.0.5'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'capistrano3-puma'
+  gem 'capistrano-sidekiq'
+  gem 'capistrano-rails'
+  gem "capistrano", "~> 3.6"
+end
+
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
