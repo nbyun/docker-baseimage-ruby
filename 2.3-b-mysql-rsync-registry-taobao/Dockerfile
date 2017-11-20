@@ -146,22 +146,28 @@ RUN set -ex \
 
 # DOTBASHRC END
 
-CMD ["/usr/bin/supervisord"]
+# MYSQL AND RSYNC BEGIN
 RUN set -ex \
   && apt-get update \
   && apt-get install -y --no-install-recommends libmysqlclient-dev bzip2 libfontconfig mysql-client \
   && apt-get install -y --no-install-recommends rsync \
   && apt-get clean
 
+# MYSQL AND RSYNC END
+
+# MYSQL AND RSYNC BEGIN
+
 # ADD ./files/Gemfile* /app/
 # RUN bundle install
 
+# REGISTRY TAOBO BEGIN
 RUN npm install -g yarn --registry=https://registry.npm.taobao.org
 RUN npm install -g webpack --registry=https://registry.npm.taobao.org
 RUN yarn config set registry 'https://registry.npm.taobao.org'
 RUN npm config set registry 'https://registry.npm.taobao.org'
 RUN npm i node-sass@4.0.0 --sass-binary-site=http://oi7tzsil6.bkt.clouddn.com/   --registry=https://registry.npm.taobao.org
 RUN yarn add node-sass@4.0.0
+# REGISTRY TAOBO END
 
 RUN set -ex \
   && echo "export PATH=$(echo $PATH)" >> /root/.bashrc
@@ -171,3 +177,4 @@ WORKDIR /app
 VOLUME /app
 
 EXPOSE 22 80 3000
+CMD ["/usr/bin/supervisord"]
