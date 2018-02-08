@@ -1,4 +1,4 @@
-FROM ruby:2.3.1
+FROM ruby:2.2.5
 
 # DEBIAN_MIRROR BEGIN
 RUN set -ex \
@@ -61,7 +61,7 @@ RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys 573BFD6
 # NGINX_SERVER END
 
 # NODE6 BEGIN
-ENV NODE_VERSION 6.7.0
+ENV NODE_VERSION 6.2.2
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_HOME /usr/local/node
 ENV NODE_BIN="$NODE_HOME/bin"
@@ -155,24 +155,9 @@ RUN set -ex \
 
 # MYSQL AND RSYNC END
 
-# REGISTRY TAOBO BEGIN
-RUN npm install -g yarn --registry=https://registry.npm.taobao.org
-RUN npm install -g webpack --registry=https://registry.npm.taobao.org
-RUN yarn config set registry 'https://registry.npm.taobao.org'
-RUN npm config set registry 'https://registry.npm.taobao.org'
-RUN npm i node-sass@4.0.0 --sass-binary-site=http://oi7tzsil6.bkt.clouddn.com/   --registry=https://registry.npm.taobao.org
-RUN yarn add node-sass@4.0.0
-# REGISTRY TAOBO END
-
-RUN set -ex \
-  && echo "export PATH=$(echo $PATH)" >> /root/.bashrc
-
 RUN mkdir /app
 WORKDIR /app
 VOLUME /app
 
-ADD ./files/Gemfile* /app/
-RUN bundle install
-
-EXPOSE 22 80 3000
+EXPOSE 22 80
 CMD ["/usr/bin/supervisord"]
