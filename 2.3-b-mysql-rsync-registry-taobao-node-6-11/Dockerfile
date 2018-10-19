@@ -95,7 +95,7 @@ ENV PATH $NODE_BIN:$PATH
 
 # LOCALE BEGIN
 RUN set -ex \
-  && apt-get install -y --no-install-recommends locales \
+  && apt-get update && apt-get install -y --no-install-recommends locales \
   && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
   && locale-gen \
   && update-locale LANG=en_US.UTF-8 LANGUAGE=en_US:en:
