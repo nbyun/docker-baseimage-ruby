@@ -69,12 +69,8 @@ RUN apt-get update \
   && echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
   && apt-get update \
   && apt-get install --no-install-recommends --no-install-suggests -y \
-            nginx=${NGINX_VERSION} \
-            nginx-module-xslt=${NGINX_VERSION} \
-            nginx-module-geoip=${NGINX_VERSION} \
-            nginx-module-image-filter=${NGINX_VERSION} \
-            nginx-module-njs=${NJS_VERSION} \
-            gettext-base \
+            ca-certificates \
+            nginx \
   && { \
     echo '[program:nginx]'; \
     echo 'command=nginx -g "daemon off;"'; \
