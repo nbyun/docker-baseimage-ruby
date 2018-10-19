@@ -75,11 +75,11 @@ RUN apt-get update \
             nginx-module-image-filter=${NGINX_VERSION} \
             nginx-module-njs=${NJS_VERSION} \
             gettext-base \
-  && rm -rf /var/lib/apt/lists/* \
   && { \
     echo '[program:nginx]'; \
     echo 'command=nginx -g "daemon off;"'; \
   } >> /etc/supervisor/conf.d/nginx.conf
+  && rm -rf /var/lib/apt/lists/* \
 
 # NGINX_SERVER END
 
