@@ -12,6 +12,7 @@ RUN set -ex \
 
 # DEBIAN_DPKGS BEGIN
 RUN set -ex \
+  && apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates curl wget git-core htop \
    screen apt-transport-https vim  default-libmysqlclient-dev bzip2 libfontconfig mysql-client \
    rsync
