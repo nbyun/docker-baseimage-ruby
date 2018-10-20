@@ -172,6 +172,7 @@ WORKDIR /app
 VOLUME /app
 
 ADD ./files/Gemfile* /app/
+ADD ./files/vendor /app/
 RUN bundle install
 
 EXPOSE 22 80 3000
