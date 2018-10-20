@@ -1,5 +1,7 @@
 FROM ruby:2.3.1
 
+RUN apt-get update
+
 # DEBIAN_MIRROR BEGIN
 RUN set -ex \
   && sed -i 's/security.debian.org/mirrors.aliyun.com\/debian-security/g' /etc/apt/sources.list \
@@ -10,8 +12,9 @@ RUN set -ex \
 
 # DEBIAN_DPKGS BEGIN
 RUN set -ex \
-  && apt-get install -y --no-install-recommends ca-certificates curl wget git-core htop screen apt-transport-https vim
-
+  && apt-get install -y --no-install-recommends ca-certificates curl wget git-core htop \
+   screen apt-transport-https vim  default-libmysqlclient-dev bzip2 libfontconfig mysql-client \
+   rsync
 # DEBIAN_DPKGS END
 
 # SUPERVISOR BEGIN
@@ -93,6 +96,14 @@ ENV PATH $NODE_BIN:$PATH
 
 # NODE6 END
 
+# YARN BEGIN
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  && apt-get update \
+  && apt-get install --no-install-recommends yarn
+
+# YARN END
+
 # LOCALE BEGIN
 RUN set -ex \
   && apt-get update && apt-get install -y --no-install-recommends locales \
@@ -146,15 +157,6 @@ RUN set -ex \
   } >> /root/.bashrc
 
 # DOTBASHRC END
-
-# MYSQL AND RSYNC BEGIN
-RUN set -ex \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends libmysqlclient-dev bzip2 libfontconfig mysql-client \
-  && apt-get install -y --no-install-recommends rsync \
-  && apt-get clean
-
-# MYSQL AND RSYNC END
 
 # REGISTRY TAOBO BEGIN
 RUN npm install -g yarn --registry=https://registry.npm.taobao.org
