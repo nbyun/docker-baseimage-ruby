@@ -2,20 +2,12 @@ FROM ruby:2.3.1
 
 RUN apt-get update
 
-# DEBIAN_MIRROR BEGIN
-RUN set -ex \
-  && sed -i 's/security.debian.org/mirrors.aliyun.com\/debian-security/g' /etc/apt/sources.list \
-  && sed -i 's/httpredir.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
-  && apt-get update
-
-# DEBIAN_MIRROR END
-
 # DEBIAN_DPKGS BEGIN
 RUN set -ex \
-  && apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates curl wget git-core htop \
    screen apt-transport-https vim  default-libmysqlclient-dev bzip2 libfontconfig mysql-client \
    rsync
+
 # DEBIAN_DPKGS END
 
 # SUPERVISOR BEGIN
