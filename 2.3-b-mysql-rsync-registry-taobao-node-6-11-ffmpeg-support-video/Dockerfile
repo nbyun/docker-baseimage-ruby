@@ -1,6 +1,9 @@
 FROM ruby:2.3.1
 
-RUN apt-get update
+RUN set -ex \
+  && sed -i '2,3d' /etc/apt/sources.list 
+
+# RUN apt-get update
 
 # DEBIAN_MIRROR BEGIN
 RUN set -ex \
@@ -12,7 +15,6 @@ RUN set -ex \
 
 # DEBIAN_DPKGS BEGIN
 RUN set -ex \
-  && apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates curl wget git-core htop \
    screen apt-transport-https vim libmysqlclient-dev bzip2 libfontconfig mysql-client \
    rsync
@@ -51,7 +53,7 @@ RUN set -ex \
 # CRON_SERVER END
 
 # NGINX_SERVER BEGIN
-RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
   && echo "deb http://nginx.org/packages/debian/ $(awk -F"[)(]+" '/VERSION=/ {print $2}' /etc/os-release) nginx" >> /etc/apt/sources.list \
   && apt-get update \
   && apt-get install --no-install-recommends --no-install-suggests -y \
@@ -82,7 +84,9 @@ RUN set -ex \
     B9AE9905FFD7803F25714661B63B535A4C206CA9 \
     C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
   ; do \
-    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+    gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
+    gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
+    gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" ; \
   done
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
@@ -124,28 +128,23 @@ ENV LC_ALL en_US.UTF-8
 #RUN echo 'deb http://deb.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
     echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" >/etc/apt/sources.list && \
-    echo "deb http://mirrors.163.com/debian/ jessie-proposed-updates main non-free contrib" >>/etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/debian/ jessie main non-free contrib" >>/etc/apt/sources.list && \
-    echo "deb-src http://mirrors.163.com/debian/ jessie-proposed-updates main non-free contrib" >>/etc/apt/sources.list \
-    echo 'deb http://mirrors.163.com/debian/ jessie-backports main' >> /etc/apt/sources.list \
-    echo 'deb-src http://mirrors.163.com/debian/ jessie-backports main' >> /etc/apt/sources.list
+    echo "deb-src http://mirrors.163.com/debian/ jessie main non-free contrib" >>/etc/apt/sources.list
 
-RUN apt-get update ; apt-get install -y git build-essential gcc make yasm autoconf automake cmake libtool checkinstall libmp3lame-dev pkg-config libunwind-dev zlib1g-dev libssl-dev
+RUN apt-get update && apt-get install -y git build-essential gcc make yasm autoconf automake cmake libtool checkinstall libmp3lame-dev pkg-config libunwind-dev zlib1g-dev libssl-dev
 
-RUN apt-get update \
-    && apt-get install -y ffmpeg ffmpegthumbnailer imagemagick --no-install-recommends libc6-dev libgdiplus wget software-properties-common \
+RUN apt-get install -y ffmpegthumbnailer imagemagick --no-install-recommends libc6-dev libgdiplus wget software-properties-common \
     && apt-get clean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
 #RUN RUN apt-add-repository ppa:git-core/ppa && apt-get update && apt-get install -y git
 
-#RUN wget https://www.ffmpeg.org/releases/ffmpeg-4.0.2.tar.gz
-#RUN tar -xzf ffmpeg-4.0.2.tar.gz; rm -r ffmpeg-4.0.2.tar.gz
-#RUN cd ./ffmpeg-4.0.2; ./configure --enable-gpl --enable-libmp3lame --enable-decoder=mjpeg,png --enable-encoder=png --enable-openssl --enable-nonfree
+RUN wget https://www.ffmpeg.org/releases/ffmpeg-4.0.2.tar.gz
+RUN tar -xzf ffmpeg-4.0.2.tar.gz; rm -r ffmpeg-4.0.2.tar.gz
+RUN cd ./ffmpeg-4.0.2; ./configure --enable-gpl --enable-libmp3lame --enable-decoder=mjpeg,png --enable-encoder=png --enable-openssl --enable-nonfree
+ 
 
-
-#RUN cd ./ffmpeg-4.0.2; make
+RUN cd ./ffmpeg-4.0.2; make && make install
 #RUN  cd ./ffmpeg-4.0.2; make install
 ######################################################################################################################
 ######################################################################################################################

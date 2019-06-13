@@ -35,7 +35,7 @@ gem 'whenever', :require => false
 gem 'wx_pay'
 gem 'uuid'
 gem 'rails-controller-testing'
-gem 'agi_scaffold', :git => 'https://code.aliyun.com/agideo/agi_scaffold.git'
+#gem 'agi_scaffold', :git => 'https://code.aliyun.com/agideo/agi_scaffold.git'
 # 单点登录
 gem 'rubycas-client', path: './vendor/gems/rubycas-client-2.3.14' #git: 'git://github.com/mdsol/rubycas-client.git' #:git => 'git://github.com/rubycas/rubycas-client.git'
 gem 'rubycas-client-rails' #, :git => 'git://github.com/creativecommons/rubycas-client-rails.git'
